@@ -213,6 +213,17 @@ public class Character2DMovement : MonoBehaviour
 	     *   * Rotating a local rotation by an axis: localRotation *= Quaternion.Euler(...)
 	     */
 	    
+	    if (mHeadingRight && mInput.move.x == -1)
+	    {
+		    transform.rotation *= Quaternion.Euler(0.0f, 180.0f, 0.0f);
+		    mHeadingRight = false;
+	    }
+
+	    if (!mHeadingRight && mInput.move.x == 1)
+	    {
+		    transform.rotation *= Quaternion.Euler(0.0f, 180.0f, 0.0f);
+		    mHeadingRight = true;
+	    }
 	    
 	    var animator = mSelector.charAnimator;
 	    if (animator != null)
@@ -228,7 +239,12 @@ public class Character2DMovement : MonoBehaviour
 			var jump = mInput.jump;
 			var falling = !mController.isGrounded && mFallTimeoutDelta <= 0.0f;
 			
-			
+			animator.SetFloat("Speed", speed);
+			animator.SetFloat("MoveSpeed", moveSpeed);
+			animator.SetBool("Jump", jump);
+			animator.SetBool("Crouch", crouch);
+			animator.SetBool("Grounded", grounded);
+			animator.SetBool("Fall", falling);
 			/*
 			 * Task #1b: Passing properties to the Animator
 			 * 
